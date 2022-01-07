@@ -1,0 +1,33 @@
+---
+- name: Install Nginx
+  package:
+    name: nginx
+    state: installed
+
+- name: Create /var/www/html directory
+  file:
+    path: /var/www/html
+    state: directory
+    recurse: true
+    owner: nginx
+    group: nginx
+
+- name: Create nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - Restart nginx
+
+- name: Start and enable Nginx
+  service:
+    name: nginx
+    enabled: true
+    state: started
+
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: /var/www/html/
+    owner: nginx
+    group: nginx

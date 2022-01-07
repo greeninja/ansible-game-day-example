@@ -1,0 +1,6 @@
+---
+
+packages:
+  - vim
+  - lsof
+  - epel-release

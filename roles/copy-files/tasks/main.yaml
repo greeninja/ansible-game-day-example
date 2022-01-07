@@ -1,0 +1,44 @@
+---
+- name: Copy Alices Files
+  copy:
+    src: "{{ item['name'] }}"
+    dest: "/home/alice/{{ item['name'] }}"
+    owner: alice
+    group: gameday
+    mode: "{{ item['mode'] }}"
+  loop:
+    - { name: "alice-bash.sh", mode: "0700" }
+    - { name: "alice-super-secret.txt", mode: "0600" }
+    - { name: "alices-notes.txt", mode: "0755" }
+
+- name: Create Bobs script directory
+  file:
+    path: /home/bob/scripts
+    state: directory
+    owner: bob
+    group: gameday
+    mode: "0755"
+
+- name: Copy Bobs script to his scripts directory
+  copy:
+    src: bob-bash.sh
+    dest: /home/bob/scripts/
+    owner: bob
+    group: gameday
+    mode: "0700"
+
+- name: Create Charlies Public scripts directory
+  file:
+    name: /usr/local/scripts
+    state: directory
+    mode: "0775"
+    owner: root
+    group: root
+
+- name: Copy Charlies script to /home/scripts
+  copy:
+    src: charlie-public.sh
+    dest: /usr/local/scripts/
+    owner: charlie
+    group: gameday
+    mode: "0755"

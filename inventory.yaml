@@ -1,0 +1,5 @@
+---
+gameday:
+  hosts:
+    node01.gameday.local:
+      ansible_ssh_host: 10.44.243.197

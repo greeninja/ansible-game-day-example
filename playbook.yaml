@@ -1,0 +1,10 @@
+---
+- name: Gameday Playbook
+  hosts: gameday
+  gather_facts: false
+  roles:
+    - copy-ssh-key
+    - users-and-groups
+    - copy-files
+    - packages
+    - nginx

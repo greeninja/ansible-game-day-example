@@ -1,0 +1,6 @@
+---
+- name: Copy ssh key from ansible host
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ ssh_key | default( lookup('file', '~/.ssh/id_rsa.pub' ) )}}"

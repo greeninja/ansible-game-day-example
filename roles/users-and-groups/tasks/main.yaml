@@ -1,0 +1,30 @@
+---
+- name: Create Gameday Group
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: Create Users
+  user:
+    name: "{{ item }}"
+    shell: /bin/bash
+    state: present
+    groups: "{{ group }}"
+    append: yes
+    generate_ssh_key: true
+  loop: "{{ users }}"
+
+- name: Fetch users ssh keys
+  fetch:
+    src: "/home/{{ item }}/.ssh/id_rsa"
+    dest: "{{ inventory_dir }}/ssh_keys/{{ item }}-private-key"
+    flat: true
+  loop: "{{ users }}"
+
+- name: Copy public key to authorized_keys
+  copy:
+    src: "/home/{{ item }}/.ssh/id_rsa.pub"
+    dest: "/home/{{ item }}/.ssh/authorized_keys"
+    remote_src: true
+    mode: 0644
+  loop: "{{ users }}"
